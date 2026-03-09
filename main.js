@@ -14,7 +14,31 @@ function displayIssues (issues) {
 
     for (let issue of issues){
         const card = document.createElement("div");
-        
+
+
+        let labelHtml = "";
+
+        issue.labels.forEach(label => {
+          console.log(label)
+          if (label === "bug") {
+            labelClass = "btn-error";
+          }
+          else if (label === "help wanted") {
+            labelClass = "btn-warning";
+          }
+          else if (label === "enhancement") {
+            labelClass = "btn-accent"
+          }
+          else if (label === "documentation") {
+            labelClass = "btn-info";
+          }
+          else if (label === "good first issue") {
+            labelClass = "btn-primary";
+          }
+
+          labelHtml = labelHtml + `<div class="btn btn-soft ${labelClass}">${label}</div>`
+        })
+
             if (issue.status === "open"){
               card.classList.add("open");
             card.innerHTML = `
@@ -25,9 +49,8 @@ function displayIssues (issues) {
             </div>
             <p class="text-sm font-semibold">${issue.title}</p>
             <p class="text-xs text-[#64748B]">${issue.description}</p>
-            <div>
-              <div class="btn btn-soft btn-error"><i class="fa-solid fa-bug"></i>${issue.labels[0]}</div>
-              <div class="btn btn-soft btn-warning"><i class="fa-solid fa-handshake-angle"></i> HELP WANTED</div>
+            <div class="flex gap-2 flex-wrap">
+              ${labelHtml}
             </div>
             <div class="p-4 text-gray-500 text-xs border-t border-gray-300 space-y-2">
               <p>#${issue.id} ${issue.author}</p>
@@ -47,9 +70,8 @@ function displayIssues (issues) {
             </div>
             <p class="text-sm font-semibold">${issue.title}</p>
             <p class="text-xs text-[#64748B]">${issue.description}</p>
-            <div>
-              <div class="btn btn-soft btn-error"><i class="fa-solid fa-bug"></i> BUG</div>
-              <div class="btn btn-soft btn-warning"><i class="fa-solid fa-handshake-angle"></i> HELP WANTED</div>
+            <div class="flex gap-2 flex-wrap">
+              ${labelHtml}
             </div>
             <div class="p-4 text-gray-500 text-xs border-t border-gray-300 space-y-2">
               <p>#${issue.id} ${issue.author}</p>
