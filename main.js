@@ -3,16 +3,20 @@ const loadIssues = () => {
     .then((res) => res.json())
     .then((json) => displayIssues(json.data))
 }
+loadIssues();
 
-const displayIssues = (issues) => {
-    const issuesContainer = document.getElementById("cards-container");
+let currentTab = "allTab";
+active(currentTab);
+const issuesContainer = document.getElementById("cards-container");
+
+function displayIssues (issues) {
     issuesContainer.innerHTML = "";
 
     for (let issue of issues){
-        const card = document.createElement("div")
+        const card = document.createElement("div");
         
-        document.getElementById("openTab").addEventListener("click", function(){
             if (issue.status === "open"){
+              card.classList.add("open");
             card.innerHTML = `
             <div class="p-3 flex flex-col gap-3 justify-center rounded-lg border-t-4 border-[#00A96E] w-full h-full bg-white shadow-md">
             <div class="flex justify-between items-center">
@@ -22,7 +26,7 @@ const displayIssues = (issues) => {
             <p class="text-sm font-semibold">${issue.title}</p>
             <p class="text-xs text-[#64748B]">${issue.description}</p>
             <div>
-              <div class="btn btn-soft btn-error"><i class="fa-solid fa-bug"></i> BUG</div>
+              <div class="btn btn-soft btn-error"><i class="fa-solid fa-bug"></i>${issue.labels[0]}</div>
               <div class="btn btn-soft btn-warning"><i class="fa-solid fa-handshake-angle"></i> HELP WANTED</div>
             </div>
             <div class="p-4 text-gray-500 text-xs border-t border-gray-300 space-y-2">
@@ -31,12 +35,10 @@ const displayIssues = (issues) => {
             </div>
             </div>
             `
-             issuesContainer.appendChild(card)
             }
-        })
         
-        document.getElementById("closeTab").addEventListener("click", function(){
-            if (issue.status === "closed"){
+            else if (issue.status === "closed"){
+              card.classList.add("closed")
             card.innerHTML = `
             <div class="p-3 flex flex-col gap-3 justify-center rounded-lg border-t-4 border-[#A855F7] w-full h-full bg-white shadow-md">
             <div class="flex justify-between items-center">
@@ -55,15 +57,36 @@ const displayIssues = (issues) => {
             </div>
           </div>
             `
-            issuesContainer.appendChild(card)
-            }     
-        })
-            
-
-        document.getElementById("allTab").addEventListener("click", function(){
-                issuesContainer.appendChild(card)
-        })
+            }
+            issuesContainer.appendChild(card);
     }
 }
 
-loadIssues()
+function active(tab) {
+
+    document.getElementById("allTab").classList.remove("btn-primary");
+    document.getElementById("openTab").classList.remove("btn-primary");
+    document.getElementById("closedTab").classList.remove("btn-primary");
+
+    currentTab = tab;
+    document.getElementById(tab).classList.add("btn-primary");
+
+    const cards = document.querySelectorAll("#cards-container > div");
+
+    cards.forEach(card => {
+
+        if (tab === "allTab") {
+            card.style.display = "block";
+        }
+
+        else if (tab === "openTab") {
+            card.style.display = card.classList.contains("open") ? "block" : "none";
+        }
+
+        else if (tab === "closedTab") {
+            card.style.display = card.classList.contains("closed") ? "block" : "none";
+        }
+
+    });
+}
+  

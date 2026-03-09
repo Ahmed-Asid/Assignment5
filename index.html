@@ -102,9 +102,9 @@
     </section>
 
     <section id="tab" class="flex items-center gap-2 p-6 w-[70%] mx-auto rounded-lg shadow-md mb-4">
-        <div id="allTab" class="btn w-[120px]">All</div>
-        <div id="openTab" class="btn w-[120px]">Open</div>
-        <div id="closeTab" class="btn w-[120px]">Closed</div>
+        <div id="allTab" onclick="active('allTab')" class="btn w-[120px]">All</div>
+        <div id="openTab" onclick="active('openTab')" class="btn w-[120px]">Open</div>
+        <div id="closedTab" onclick="active('closedTab')" class="btn w-[120px]">Closed</div>
     </section>
 
     <section id="main" class="w-[70%] mx-auto">
@@ -129,7 +129,7 @@
         </div>
         <div id="cards-container" class="bg-[#FBFBFB] shadow-md p-6 grid grid-cols-4 gap-2">
 
-          <div class="p-3 flex flex-col gap-3 justify-center rounded-lg border-t-[#00A96E] w-full h-full bg-white shadow-md">
+          <!-- <div class="p-3 flex flex-col gap-3 justify-center rounded-lg border-t-[#00A96E] w-full h-full bg-white shadow-md">
             <div>
               <img src="./assets/Open-Status.png" alt="">
               <div class=""></div>
@@ -144,7 +144,7 @@
               <p>#${issue.id} ${issue.author}</p>
               <p>${issue.createdAt}</p>
             </div>
-          </div>
+          </div> -->
         </div>
     </section>
     <script src="./main.js"></script>
