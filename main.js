@@ -14,7 +14,7 @@ function displayIssues (issues) {
 
     for (let issue of issues){
         const card = document.createElement("div");
-
+      card.classList.add("card")
 
         let labelHtml = "";
 
@@ -36,7 +36,7 @@ function displayIssues (issues) {
             labelClass = "btn-primary";
           }
 
-          labelHtml = labelHtml + `<div class="btn btn-soft uppercase ${labelClass}">${label}</div>`
+          labelHtml = labelHtml + `<div class="btn btn-soft text-xs uppercase ${labelClass}">${label}</div>`
         })
 
         
@@ -53,15 +53,17 @@ function displayIssues (issues) {
             if (issue.status === "open"){
               card.classList.add("open");
             card.innerHTML = `
-            <div class="p-3 flex flex-col gap-3 justify-center rounded-lg border-t-4 border-[#00A96E] w-full h-full bg-white shadow-md">
-            <div class="flex justify-between items-center">
+            <div onclick="my_modal_5.showModal()" class="p-3 rounded-lg border-t-4 border-[#00A96E] w-full h-full bg-white shadow-md">
+            <div class="h-57 flex flex-col gap-3 justify-start">
+              <div class="flex justify-between items-center">
               <img src="./assets/Open-Status.png" alt="">
               <div class="priority uppercase btn btn-soft ${priorityClass}">${issue.priority}</div>
-            </div>
-            <p class="text-sm font-semibold">${issue.title}</p>
-            <p class="text-xs text-[#64748B]">${issue.description}</p>
-            <div class="flex gap-2 flex-wrap">
+              </div>
+              <p class="text-sm font-semibold">${issue.title}</p>
+              <p class="text-xs text-[#64748B] truncate">${issue.description}</p>
+              <div class="flex gap-2 flex-wrap">
               ${labelHtml}
+              </div>
             </div>
             <div class="p-4 text-gray-500 text-xs border-t border-gray-300 space-y-2">
               <p>#${issue.id} ${issue.author}</p>
@@ -74,15 +76,17 @@ function displayIssues (issues) {
             else if (issue.status === "closed"){
               card.classList.add("closed")
             card.innerHTML = `
-            <div class="p-3 flex flex-col gap-3 justify-center rounded-lg border-t-4 border-[#A855F7] w-full h-full bg-white shadow-md">
-            <div class="flex justify-between items-center">
+            <div onclick="my_modal_5.showModal()" class="p-3 rounded-lg border-t-4 border-[#A855F7] w-full h-full bg-white shadow-md">
+            <div class="h-57 flex flex-col gap-3 justify-start">
+              <div class="flex justify-between items-center">
               <img src="./assets/Open-Status.png" alt="">
               <div class="priority uppercase btn btn-soft ${priorityClass}">${issue.priority}</div>
-            </div>
-            <p class="text-sm font-semibold">${issue.title}</p>
-            <p class="text-xs text-[#64748B]">${issue.description}</p>
-            <div class="flex gap-2 flex-wrap">
+              </div>
+              <p class="text-sm font-semibold">${issue.title}</p>
+              <p class="text-xs text-[#64748B] truncate">${issue.description}</p>
+              <div class="flex gap-2 flex-wrap">
               ${labelHtml}
+              </div>
             </div>
             <div class="p-4 text-gray-500 text-xs border-t border-gray-300 space-y-2">
               <p>#${issue.id} ${issue.author}</p>
