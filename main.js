@@ -9,6 +9,21 @@ let currentTab = "allTab";
 active(currentTab);
 const issuesContainer = document.getElementById("cards-container");
 
+const statusDesign = (obj) => {
+  let statusHtml = "";
+  let statusClass = "";
+  if (obj.status === "open") {
+    statusString = "Opened";
+    statusClass = "bg-[#00A96E]";
+  }
+  else if (obj.status === "closed") {
+    statusString = "closed";
+    statusClass = "bg-[#A855F7]"
+  }
+  statusHtml = `<div class="btn text-white rounded-full ${statusClass}">${statusString}</div>`;
+  return statusHtml;
+}
+
 const labelDesign = (obj) => {
   let labelHtml = "";
   let labelClass = "";
@@ -30,7 +45,7 @@ const labelDesign = (obj) => {
             labelClass = "btn-primary";
           }
 
-          labelHtml = labelHtml + `<div class="btn btn-soft text-xs uppercase ${labelClass}">${label}</div>`
+          labelHtml = labelHtml + `<div class="btn btn-soft text-xs uppercase rounded-full ${labelClass}">${label}</div>`
         })
         return labelHtml;
 }
@@ -47,7 +62,7 @@ const priorityDesign = (obj) => {
   else if (obj.priority === "low"){
           priorityClass = "btn-accent"
         }
-      priorityHtml = `<div class="priority uppercase btn btn-soft ${priorityClass}">${obj.priority}</div>`;
+      priorityHtml = `<div class="priority uppercase btn btn-soft rounded-full ${priorityClass}">${obj.priority}</div>`;
       return priorityHtml;
 }
 
@@ -106,9 +121,34 @@ const loadDetails = async (id) => {
 const displayDetails = (card) => {
   console.log(card);
     const modal = document.getElementById("details-container");
+    const labelHtml = labelDesign(card);
+    const priorityHtml = priorityDesign(card);
+    const statusHtml = statusDesign(card);
+
     modal.innerHTML = "";
     modal.innerHTML = `
-      <p class="font-bold text-2xl">${card.title}</p>
+      <div>
+        <p class="font-bold text-2xl">${card.title}</p>
+        <div class="flex gap-2 items-center">
+          ${statusHtml}
+          <div class="w-1 h-1 bg-slate-400 rounded-full"></div>
+          <p class="text-xs text-gray-400">${card.assignee ? card.assignee : "Not assigned yet"}</p>
+          <div class="w-1 h-1 bg-slate-400 rounded-full"></div>
+          <p class="text-xs text-gray-400">${card.updatedAt}</p>
+        </div>
+      </div>
+      ${labelHtml}
+      <p class="text-[#64748B]">${card.description}</p>
+      <div class="bg-[#F8FAFC] p-4 flex gap-2.5">
+        <div class="w-[50%] space-y-1">
+          <p class="text-gray-400">Assignee:</p>
+          <p class="font-semibold">${card.assignee ? card.assignee : "Not assigned yet"}</p>
+        </div>
+        <div class="w-[50%] space-y-1">
+          <p class="text-gray-400">Priority:</p>
+          ${priorityHtml}
+        </div>
+      </div>
     `;
     document.getElementById("issue_modal").showModal();
   }
