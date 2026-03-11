@@ -1,8 +1,13 @@
+let allIssue = [];
+
 const loadIssues = () => {
   manageSpinner(true);
     fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues")
     .then((res) => res.json())
-    .then((json) => displayIssues(json.data))
+    .then((json) => {
+      allIssue = json.data;
+      displayIssues(allIssue);
+    })
 }
 loadIssues();
 
@@ -10,20 +15,32 @@ let currentTab = "allTab";
 active(currentTab);
 const issuesContainer = document.getElementById("cards-container");
 
+document.getElementById("search").addEventListener("input", searchKey)
+
+function searchKey () {
+  const keyword = document.getElementById("search").value.toLowerCase();
+  console.log(keyword);
+  const filtered = allIssue.filter(issue => 
+    issue.title.toLowerCase().includes(keyword));
+  displayIssues(filtered);
+}
+
 function manageSpinner (status) {
   if (status == true) {
     document.getElementById("spinner").classList.remove("hidden");
-    document.getElementById("cards-container").classList.add("hidden")
+    document.getElementById("cards-container").classList.add("hidden");
   }
   else {
     document.getElementById("spinner").classList.add("hidden");
-    document.getElementById("cards-container").classList.remove("hidden")
+    document.getElementById("cards-container").classList.remove("hidden");
   }
 }
 
 const statusDesign = (obj) => {
   let statusHtml = "";
   let statusClass = "";
+  let statusString = "";
+
   if (obj.status === "open") {
     statusString = "Opened";
     statusClass = "bg-[#00A96E]";
@@ -83,7 +100,7 @@ function displayIssues (issues) {
     
     for (let issue of issues){
         const card = document.createElement("div");
-        card.classList.add("card")
+        card.classList.add("card");
 
         const labelHtml = labelDesign(issue);
 
@@ -120,8 +137,8 @@ function displayIssues (issues) {
             `
 
             issuesContainer.appendChild(card);
-            manageSpinner(false);
     }
+    manageSpinner(false);
 }
 
 const loadDetails = async (id) => {
