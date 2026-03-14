@@ -18,6 +18,7 @@ const issuesContainer = document.getElementById("cards-container");
 document.getElementById("search").addEventListener("input", searchKey)
 
 function searchKey () {
+  
   const keyword = document.getElementById("search").value.toLowerCase();
   console.log(keyword);
   const filtered = allIssue.filter(issue => 
@@ -185,7 +186,7 @@ const displayDetails = (card) => {
 
 
 function active(tab) {
-    manageSpinner(true);
+    
     document.getElementById("allTab").classList.remove("btn-primary");
     document.getElementById("openTab").classList.remove("btn-primary");
     document.getElementById("closedTab").classList.remove("btn-primary");
